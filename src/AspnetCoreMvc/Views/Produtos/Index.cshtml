@@ -12,21 +12,21 @@
 </p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Imagem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Valor)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Imagem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Valor)
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 <img src="/images/@item.Imagem" style="height: 100px; width: 61px" />
@@ -35,10 +35,12 @@
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-               R$ @Html.DisplayFor(modelItem => item.Valor)
+                R$ @Html.DisplayFor(modelItem => item.Valor)
             </td>
             <td>
-                <botao tipo-botao=></botao>
+                <botao tipo-botao="Detalhes" route-id="@item.Id"></botao>
+                <botao tipo-botao="Editar"   route-id="@item.Id"></botao>
+                <botao tipo-botao="Excluir"  route-id="@item.Id"></botao>
                 @*
                 <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.Id"><span class="fa fa-search"></span></a>
                 <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><span class="fa fa-pencil-alt"></span></a>
@@ -46,6 +48,9 @@
                 *@
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+
+<vc:counter model-counter="@Model.Count()"></vc:counter>
+@*@await Component.InvokeAsync("Counter", Model.Count())*@
