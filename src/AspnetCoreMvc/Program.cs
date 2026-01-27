@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AspnetCoreMvc.Data;
+using AspnetCoreMvc.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,13 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddTransient<IOperacaoTransient, Operacao>();
+builder.Services.AddScoped<IOperacaoScoped, Operacao>();
+builder.Services.AddSingleton<IOperacaoSingleton, Operacao>();
+builder.Services.AddSingleton<IOperacaoSingletonInstance>(new Operacao(Guid.Empty));
+
+builder.Services.AddTransient<OperacaoService>();
 
 var app = builder.Build();
 

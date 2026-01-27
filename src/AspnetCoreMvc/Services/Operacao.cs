@@ -1,6 +1,9 @@
 ﻿namespace AspnetCoreMvc.Services;
 
-public class Operacao : IOperacao
+public class Operacao : IOperacaoTransient,
+                        IOperacaoScoped,
+                        IOperacaoSingleton,
+                        IOperacaoSingletonInstance
 {
     public Operacao() : this(Guid.NewGuid())
     {
