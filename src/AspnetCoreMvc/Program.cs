@@ -2,12 +2,21 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AspnetCoreMvc.Data;
 using AspnetCoreMvc.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+/*
+ * // Adiciona o ValidateAntiForgeryToken globalmente
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
+*/
 
 /*builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
