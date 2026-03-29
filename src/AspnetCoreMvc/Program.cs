@@ -45,6 +45,15 @@ builder.Services.AddSingleton<IOperacaoSingletonInstance>(new Operacao(Guid.Empt
 
 builder.Services.AddTransient<OperacaoService>();
 
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.ExcludedHosts.Add("example.com");
+    options.ExcludedHosts.Add("www.example.com");
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
