@@ -61,6 +61,12 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationContext>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("PodeExcluirPermanentemente", policy => 
+        policy.RequireRole("Admin"));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

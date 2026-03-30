@@ -122,6 +122,7 @@ namespace AspnetCoreMvc.Controllers
         }
 
         [Route("excluir/{id}")]
+        [Authorize(Policy = "PodeExcluirPermanentemente")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -141,6 +142,7 @@ namespace AspnetCoreMvc.Controllers
 
         [HttpPost("excluir/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "PodeExcluirPermanentemente")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Produtos == null)
