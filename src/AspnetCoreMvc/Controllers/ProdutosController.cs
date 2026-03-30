@@ -22,7 +22,7 @@ namespace AspnetCoreMvc.Controllers
             _context = context;
         }
         
-        [AllowAnonymous]
+        [Authorize(Policy = "VerProdutos")]
         public async Task<IActionResult> Index()
         {
             var user = HttpContext.User.Identity;

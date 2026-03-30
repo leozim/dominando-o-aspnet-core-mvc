@@ -65,6 +65,9 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("PodeExcluirPermanentemente", policy => 
         policy.RequireRole("Admin"));
+    
+    options.AddPolicy("VerProdutos", policy => 
+        policy.RequireClaim("Produtos", "VI"));
 });
 
 var app = builder.Build();
