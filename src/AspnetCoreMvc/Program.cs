@@ -54,6 +54,11 @@ builder.Services.AddHsts(options =>
     options.ExcludedHosts.Add("www.example.com");
 });
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+}).AddEntityFrameworkStores<ApplicationContext>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
