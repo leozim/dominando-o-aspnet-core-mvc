@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspnetCoreMvc.Data;
 using AspnetCoreMvc.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspnetCoreMvc.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("meus-produtos")]
     public class ProdutosController : Controller
     {
@@ -19,7 +21,8 @@ namespace AspnetCoreMvc.Controllers
         {
             _context = context;
         }
-
+        
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var user = HttpContext.User.Identity;

@@ -57,7 +57,9 @@ builder.Services.AddHsts(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
-}).AddEntityFrameworkStores<ApplicationContext>();
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationContext>();
 
 var app = builder.Build();
 
