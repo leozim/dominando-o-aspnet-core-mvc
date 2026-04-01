@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace AspnetCoreMvc.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")] // not recommended. insert into actions only and do not insert into entire Controller
     [Route("meus-produtos")]
     public class ProdutosController : Controller
     {
