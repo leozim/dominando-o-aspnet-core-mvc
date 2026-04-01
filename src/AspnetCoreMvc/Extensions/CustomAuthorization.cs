@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace AspnetCoreMvc.Extensions;
 
-public class ClaimsAuthorization
+public class CustomAuthorization
 {
     public static bool ValidarClaimsUsuario(HttpContext context, string claimName, string claimValue)
     {
@@ -34,16 +34,16 @@ public class RequisitoClaimFilter : IAuthorizationFilter
                 );
         }
 
-        if (ClaimsAuthorization.ValidarClaimsUsuario(context.HttpContext, _claim.Type, _claim.Value))
+        if (CustomAuthorization.ValidarClaimsUsuario(context.HttpContext, _claim.Type, _claim.Value))
         {
             context.Result = new StatusCodeResult(StatusCodes.Status403Forbidden);
         }
     }
 }
 
-public class ClaimAuthorizeAttribute : TypeFilterAttribute
+public class ClaimsAuthorizeAttribute : TypeFilterAttribute
 {
-    ClaimAuthorizeAttribute(string claimName, string claimValue) : base(typeof(RequisitoClaimFilter))
+    public ClaimsAuthorizeAttribute(string claimName, string claimValue) : base(typeof(RequisitoClaimFilter))
     {
         Arguments = new object[] { new Claim(claimName, claimValue) };
     }

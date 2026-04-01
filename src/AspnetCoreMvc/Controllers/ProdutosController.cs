@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AspnetCoreMvc.Data;
+using AspnetCoreMvc.Extensions;
 using AspnetCoreMvc.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AspnetCoreMvc.Controllers
 {
-    [Authorize(Roles = "Admin")] // not recommended. insert into actions only and do not insert into entire Controller
+    // [Authorize(Roles = "Admin")] // not recommended use roles like that.
+                                 // insert into actions only and do not insert into entire Controller
+    [Authorize]
     [Route("meus-produtos")]
     public class ProdutosController : Controller
     {
@@ -22,7 +25,7 @@ namespace AspnetCoreMvc.Controllers
             _context = context;
         }
         
-        [Authorize(Policy = "VerProdutos")]
+        [ClaimsAuthorize("Produtos", "VI")]
         public async Task<IActionResult> Index()
         {
             var user = HttpContext.User.Identity;
@@ -31,7 +34,8 @@ namespace AspnetCoreMvc.Controllers
                 ? View(await _context.Produtos.ToListAsync())
                 : Problem("Entity set 'AppDbContext.Produtos'  is null.");
         }
-
+        
+        [ClaimsAuthorize("Produtos", "VI")]
         [Route("detalhes/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
@@ -49,13 +53,15 @@ namespace AspnetCoreMvc.Controllers
 
             return View(produto);
         }
-
+        
+        [ClaimsAuthorize("Produtos", "AD")]
         [Route("criar-novo")]
         public IActionResult CriarNovoProduto()
         {
             return View("Create");
         }
-
+        
+        [ClaimsAuthorize("Produtos", "AD")]
         [HttpPost("criar-novo")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CriarNovoProduto([Bind("Id,Nome,Imagem,Valor")] Produto produto)
@@ -69,7 +75,8 @@ namespace AspnetCoreMvc.Controllers
 
             return View("Create", produto);
         }
-
+        
+        [ClaimsAuthorize("Produtos", "ED")]
         [Route("editar-produto/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,7 +93,8 @@ namespace AspnetCoreMvc.Controllers
 
             return View(produto);
         }
-
+        
+        [ClaimsAuthorize("Produtos", "ED")]
         [HttpPost("editar-produto/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Imagem,Valor")] Produto produto)
@@ -122,7 +130,7 @@ namespace AspnetCoreMvc.Controllers
         }
 
         [Route("excluir/{id}")]
-        [Authorize(Policy = "PodeExcluirPermanentemente")]
+        [ClaimsAuthorize("Produtos", "EX")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Produtos == null)
@@ -142,7 +150,7 @@ namespace AspnetCoreMvc.Controllers
 
         [HttpPost("excluir/{id}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Policy = "PodeExcluirPermanentemente")]
+        [ClaimsAuthorize("Produtos", "EX")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Produtos == null)
