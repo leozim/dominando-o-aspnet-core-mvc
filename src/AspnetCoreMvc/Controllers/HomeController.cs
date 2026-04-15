@@ -15,6 +15,8 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRIONMENT");
+        
         return View();
     }
 
