@@ -1,3 +1,4 @@
+using AspnetCoreMvc.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AspnetCoreMvc.Data;
@@ -7,68 +8,35 @@ using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
+// Cross-Site Request Forgery
 /*
- * // Adiciona o ValidateAntiForgeryToken globalmente
+// Adiciona o ValidateAntiForgeryToken globalmente
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
 });
 */
 
-/*builder.Services.Configure<RazorViewEngineOptions>(options =>
+/*
+ builder.Services.Configure<RazorViewEngineOptions>(options =>
 {
     options.AreaViewLocationFormats.Clear();
     options.AreaViewLocationFormats.Add("/Modulos/{2}/Views/{1}/{0}.cshtml");
     options.AreaViewLocationFormats.Add("/Modulos/{2}/Views/Shared/{0}.cshtml");
     options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
-});*/
+});
+*/
 
 // Add services to the container
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlServer(connectionString),
-    ServiceLifetime.Scoped);
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+// builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+//
+// builder.Services.AddControllersWithViews();
 
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-builder.Services.AddTransient<IOperacaoTransient, Operacao>();
-builder.Services.AddScoped<IOperacaoScoped, Operacao>();
-builder.Services.AddSingleton<IOperacaoSingleton, Operacao>();
-builder.Services.AddSingleton<IOperacaoSingletonInstance>(new Operacao(Guid.Empty));
-
-builder.Services.AddTransient<OperacaoService>();
-
-builder.Services.AddHsts(options =>
-{
-    options.Preload = true;
-    options.IncludeSubDomains = true;
-    options.MaxAge = TimeSpan.FromDays(365);
-    options.ExcludedHosts.Add("example.com");
-    options.ExcludedHosts.Add("www.example.com");
-});
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = true;
-})
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationContext>();
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("PodeExcluirPermanentemente", policy => 
-        policy.RequireRole("Admin"));
-    
-    options.AddPolicy("VerProdutos", policy => 
-        policy.RequireClaim("Produtos", "VI"));
-});
+builder
+    .AddMvcConfiguration()
+    .AddIdentityConfig()
+    .AddDependencyInjectionConfiguration();
 
 var app = builder.Build();
 
