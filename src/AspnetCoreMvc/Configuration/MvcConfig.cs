@@ -45,6 +45,9 @@ public static class MvcConfig
             options.ExcludedHosts.Add("example.com");
             options.ExcludedHosts.Add("www.example.com");
         });
+
+        builder.Services.Configure<ApiConfiguration>(
+            builder.Configuration.GetSection(ApiConfiguration.ConfigName));
         
         return builder;
     }
