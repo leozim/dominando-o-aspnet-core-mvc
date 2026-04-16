@@ -1,4 +1,5 @@
-﻿using AspnetCoreMvc.Data;
+﻿using System.Reflection;
+using AspnetCoreMvc.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -17,7 +18,9 @@ public static class MvcConfig
                 $"appsettings.{builder.Environment.EnvironmentName}.json", 
                 true, 
                 true)
-            .AddEnvironmentVariables();
+            .AddEnvironmentVariables()
+            // linha abaixo garante pegar dados do User Secrets
+            .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
         
         builder.Services.AddControllersWithViews(options =>
         {
