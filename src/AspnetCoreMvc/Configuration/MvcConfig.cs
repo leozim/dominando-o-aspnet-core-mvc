@@ -30,8 +30,8 @@ public static class MvcConfig
         builder.Services.Configure<RazorViewEngineOptions>(options =>
         {
             options.AreaViewLocationFormats.Clear();
-            options.AreaViewLocationFormats.Add("/Modulos/{2}/Views/{1}/{0}.cshtml");
-            options.AreaViewLocationFormats.Add("/Modulos/{2}/Views/Shared/{0}.cshtml");
+            options.AreaViewLocationFormats.Add("/Areas/{2}/Views/{1}/{0}.cshtml");
+            options.AreaViewLocationFormats.Add("/Areas/{2}/Views/Shared/{0}.cshtml");
             options.AreaViewLocationFormats.Add("/Views/Shared/{0}.cshtml");
         });
         
@@ -61,10 +61,13 @@ public static class MvcConfig
         if (app.Environment.IsDevelopment())
         {
             app.UseMigrationsEndPoint();
+            // Middleware que retorna pagina de erro amigável para o dev.
+            app.UseDeveloperExceptionPage();
         }
         else
         {
             app.UseExceptionHandler("/Home/Error");
+            app.UseStatusCodePagesWithRedirects("/Home/{0}");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
