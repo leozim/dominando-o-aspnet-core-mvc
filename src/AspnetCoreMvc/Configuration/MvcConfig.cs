@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using AspnetCoreMvc.Data;
+using AspnetCoreMvc.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -25,6 +26,7 @@ public static class MvcConfig
         builder.Services.AddControllersWithViews(options =>
         {
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            options.Filters.Add(typeof(FiltroAuditoria));
         });
         
         builder.Services.Configure<RazorViewEngineOptions>(options =>
