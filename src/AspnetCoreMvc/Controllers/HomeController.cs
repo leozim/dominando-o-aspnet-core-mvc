@@ -22,6 +22,7 @@ public class HomeController : Controller
         _apiConfiguration = apiConfiguration.Value;
     }
 
+    
     public IActionResult Index()
     {
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRIONMENT");
