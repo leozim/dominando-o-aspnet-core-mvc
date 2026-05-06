@@ -27,6 +27,9 @@ public static class MvcConfig
         {
             options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             options.Filters.Add(typeof(FiltroAuditoria));
+            
+            MvcOptionsConfig.ConfigurarMensagensDeModelBiding(
+                options.ModelBindingMessageProvider);
         });
         
         builder.Services.Configure<RazorViewEngineOptions>(options =>
