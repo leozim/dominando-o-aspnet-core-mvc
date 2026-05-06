@@ -25,6 +25,5 @@ public class FiltroAuditoria : IActionFilter
 
     public void OnActionExecuted(ActionExecutedContext context)
     {
-        throw new NotImplementedException();
     }
 }
