@@ -1,4 +1,6 @@
-﻿using AspnetCoreMvc.Services;
+﻿using AspnetCoreMvc.Extensions;
+using AspnetCoreMvc.Services;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 
 namespace AspnetCoreMvc.Configuration;
 
@@ -13,6 +15,8 @@ public static class DependencyInjectionConfiguration
         builder.Services.AddSingleton<IOperacaoSingletonInstance>(new Operacao(Guid.Empty));
         builder.Services.AddTransient<OperacaoService>();
 
+        builder.Services.AddSingleton<IValidationAttributeAdapterProvider, MoedaValidationAttributeAdapterProvider>();
+        
         return builder;
     }
 }
