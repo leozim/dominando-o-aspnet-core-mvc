@@ -30,7 +30,8 @@ public static class MvcConfig
             
             MvcOptionsConfig.ConfigurarMensagensDeModelBiding(
                 options.ModelBindingMessageProvider);
-        });
+        })
+            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         
         builder.Services.Configure<RazorViewEngineOptions>(options =>
         {
