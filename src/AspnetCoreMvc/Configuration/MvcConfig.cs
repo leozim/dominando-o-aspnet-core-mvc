@@ -78,7 +78,6 @@ public static class MvcConfig
             app.UseHsts();
         }
 
-        app.UseGlobalizationConfig();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

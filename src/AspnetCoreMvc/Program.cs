@@ -3,6 +3,7 @@ using AspnetCoreMvc.Configuration;
 var builder = WebApplication.CreateBuilder(args);
 
 builder
+    .AddGlobalizationConfig()
     .AddMvcConfiguration()
     .AddIdentityConfig()
     .AddDependencyInjectionConfiguration();

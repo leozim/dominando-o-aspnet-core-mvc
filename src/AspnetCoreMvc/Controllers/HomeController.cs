@@ -2,6 +2,8 @@ using System.Diagnostics;
 using AspnetCoreMvc.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using AspnetCoreMvc.Models;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace AspnetCoreMvc.Controllers;
@@ -11,15 +13,18 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly IConfiguration _configuration;
     private readonly ApiConfiguration _apiConfiguration;
+    private readonly IStringLocalizer<HomeController> _localizer;
 
     public HomeController(
         ILogger<HomeController> logger, 
         IConfiguration configuration,
-        IOptions<ApiConfiguration> apiConfiguration)
+        IOptions<ApiConfiguration> apiConfiguration,
+        IStringLocalizer<HomeController> localizer)
     {
         _logger = logger;
         _configuration = configuration;
         _apiConfiguration = apiConfiguration.Value;
+        _localizer = localizer;
     }
 
     public IActionResult Index()
@@ -35,7 +40,20 @@ public class HomeController : Controller
         // através de options. melhor implementação
         var domain = _apiConfiguration.Domain;
         
+        ViewData["Message"] = _localizer["Hello"];
+        
         return View();
+    }
+
+    [HttpPost]
+    public IActionResult SetLanguage(string culture, string returnUrl)
+    {
+        Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1)});
+
+        return LocalRedirect(returnUrl);
     }
 
     public IActionResult Privacy()
