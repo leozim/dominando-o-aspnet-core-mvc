@@ -40,7 +40,7 @@ public class HomeController : Controller
         // através de options. melhor implementação
         var domain = _apiConfiguration.Domain;
         
-        ViewData["Message"] = _localizer["Hello"];
+        ViewData["Message"] = _localizer["Saudacao"];
         
         return View();
     }

@@ -58,5 +58,14 @@ namespace AspnetCoreMvc.Resources.Controllers {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome.
+        /// </summary>
+        internal static string Saudacao {
+            get {
+                return ResourceManager.GetString("Saudacao", resourceCulture);
+            }
+        }
     }
 }
