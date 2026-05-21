@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using AspnetCoreMvc.Extensions;
 
 namespace AspnetCoreMvc.Models;
@@ -11,7 +13,10 @@ public class Produto
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public string? Nome { get; set; }
     
-    [Required(ErrorMessage = "O campo {0} é obrigatório")]
+    [NotMapped]
+    [DisplayName("Imagem do Produto")]
+    public IFormFile? ImagemUpload { get; set; }
+    
     public string? Imagem { get; set; }
     
     [Moeda]

@@ -63,11 +63,19 @@ namespace AspnetCoreMvc.Controllers
         
         [ClaimsAuthorize("Produtos", "AD")]
         [HttpPost("criar-novo")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CriarNovoProduto([Bind("Id,Nome,Imagem,Valor")] Produto produto)
+        //[ValidateAntiForgeryToken]  ja estáa aplicado globalmente
+        public async Task<IActionResult> CriarNovoProduto([Bind("Id,Nome,ImagemUpload,Valor")] Produto produto)
         {
             if (ModelState.IsValid)
             {
+                var imgPrefixo = Guid.NewGuid() + "_";
+                if (!await UploadArquivo(produto.ImagemUpload, imgPrefixo))
+                {
+                    return View(produto);
+                }
+
+                produto.Imagem = imgPrefixo + produto.ImagemUpload.FileName;
+                
                 _context.Add(produto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -171,6 +179,25 @@ namespace AspnetCoreMvc.Controllers
         private bool ProdutoExists(int id)
         {
             return (_context.Produtos?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task<bool> UploadArquivo(IFormFile arquivo, string imgPreFixo)
+        {
+            if (arquivo.Length <= 0) return false;
+            
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", imgPreFixo + arquivo.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                ModelState.AddModelError(string.Empty, "Já existe um arquivo com este nome!");
+            }
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
+
+            return true;
         }
     }
 }
