@@ -105,17 +105,33 @@ namespace AspnetCoreMvc.Controllers
         [ClaimsAuthorize("Produtos", "ED")]
         [HttpPost("editar-produto/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Imagem,Valor")] Produto produto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,ImagemUpload,Valor")] Produto produto)
         {
             if (id != produto.Id)
             {
                 return NotFound();
             }
 
+            var produtoDb = await _context.Produtos
+                .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    // Evita perder imagem do produto existente
+                    produto.Imagem = produtoDb.Imagem;
+                    if (produto.ImagemUpload != null)
+                    {
+                        var imgPrefixo = Guid.NewGuid() + "_";
+                        if (!await UploadArquivo(produto.ImagemUpload, imgPrefixo))
+                        {
+                            return View(produto);
+                        }
+
+                        produto.Imagem = imgPrefixo + produto.ImagemUpload.FileName;
+                    }
+                    
                     _context.Update(produto);
                     await _context.SaveChangesAsync();
                 }

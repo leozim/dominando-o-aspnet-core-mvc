@@ -8,7 +8,7 @@ namespace AspnetCoreMvc.Extensions;
 
 public class MoedaAttribute : ValidationAttribute
 {
-    protected ValidationResult Isvalid(object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
     {
         try
         {
