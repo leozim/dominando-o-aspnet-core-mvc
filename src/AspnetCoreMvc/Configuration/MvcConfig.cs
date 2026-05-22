@@ -22,6 +22,8 @@ public static class MvcConfig
             .AddEnvironmentVariables()
             // linha abaixo garante pegar dados do User Secrets
             .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+
+        builder.Services.AddResponseCaching();
         
         builder.Services.AddControllersWithViews(options =>
         {
@@ -78,7 +80,8 @@ public static class MvcConfig
             app.UseHsts();
         }
 
-
+        app.UseResponseCaching();
+        
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 

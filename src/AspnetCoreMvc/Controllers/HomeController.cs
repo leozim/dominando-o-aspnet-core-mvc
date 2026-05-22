@@ -26,7 +26,8 @@ public class HomeController : Controller
         _apiConfiguration = apiConfiguration.Value;
         _localizer = localizer;
     }
-
+    
+    [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Any, NoStore = false)]
     public IActionResult Index()
     {
         var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRIONMENT");
