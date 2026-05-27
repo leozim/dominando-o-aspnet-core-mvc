@@ -22,4 +22,6 @@ public class Produto
     [Moeda]
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     public string? Valor { get; set; }
+    
+    public bool Proceessado {  get; set; }
 }
