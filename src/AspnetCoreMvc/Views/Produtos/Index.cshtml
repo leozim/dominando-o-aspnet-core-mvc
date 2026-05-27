@@ -8,7 +8,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-controller="Produtos" asp-action="CriarNovoProduto">Criar Produto</a>
+    <a class="btn btn-primary" supress-by-claim-name="Produtos" supress-by-claim-value="AD" asp-action="CriarNovoProduto"><spam class="fa fa-plus"></spam> Novo</a>
 </p>
 <table class="table">
     <thead>
@@ -41,7 +41,7 @@
                     <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#detalhesModal" data-imagem="@item.Imagem" data-id="@item.Id" data-nome="@item.Nome" data-valor="@item.Valor"><spam class="fa fa-search"></spam></button>
                     <botao tipo-botao="Detalhes" route-id="@item.Id"></botao>
                     <botao tipo-botao="Editar" route-id="@item.Id"></botao>
-                    <botao tipo-botao="Excluir" route-id="@item.Id"></botao>
+                    <botao disable-claim-by-name="Produtos" disable-by-claim-value="EX" tipo-botao="Excluir" route-id="@item.Id"></botao>
                     
                     
                     @*
