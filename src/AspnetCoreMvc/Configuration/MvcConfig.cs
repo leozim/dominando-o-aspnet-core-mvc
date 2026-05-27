@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AspnetCoreMvc.Data;
 using AspnetCoreMvc.Extensions;
+using AspnetCoreMvc.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -59,6 +60,8 @@ public static class MvcConfig
 
         builder.Services.Configure<ApiConfiguration>(
             builder.Configuration.GetSection(ApiConfiguration.ConfigName));
+
+        builder.Services.AddHostedService<ImageWatermarkService>();
         
         return builder;
     }
